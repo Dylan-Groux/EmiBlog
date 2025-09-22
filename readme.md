@@ -23,3 +23,8 @@ Ce projet a été réalisé avec PHP 8.2. Bien que d'autres versions de PHP puis
 ## Copyright : 
 
 Projet utilisé dans le cadre d'une formation Openclassrooms. 
+
+## Branch : 
+
+- main
+- develop (dev)
