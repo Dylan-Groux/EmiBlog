@@ -1,7 +1,8 @@
 <?php
     /**
-     * Affichage de Liste des articles. 
+     * Affichage de Liste des articles.
      */
+    use App\Services\Utils;
 ?>
 
 <div class="articleList">

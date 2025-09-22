@@ -1,8 +1,10 @@
-<?php 
-    /** 
-     * Affichage de la partie admin : liste des articles avec un bouton "modifier" pour chacun. 
-     * Et un formulaire pour ajouter un article. 
+<?php
+    /**
+     * Affichage de la partie admin : liste des articles avec un bouton "modifier" pour chacun.
+     * Et un formulaire pour ajouter un article.
      */
+
+    use App\Services\Utils;
 ?>
 
 <h2>Edition des articles</h2>

@@ -3,6 +3,8 @@
      * Ce template affiche un article et ses commentaires.
      * Il affiche également un formulaire pour ajouter un commentaire.
      */
+
+    use App\Services\Utils;
 ?>
 
 <article class="mainArticle">
@@ -33,9 +35,9 @@
                 echo '      <p class="content">' . Utils::format($comment->getContent()) . '</p>';
                 echo '  </div>';
                 echo '</li>';
-            }               
+            }
             echo '</ul>';
-        } 
+        }
     ?>
 
     <form action="index.php" method="post" class="foldedCorner">

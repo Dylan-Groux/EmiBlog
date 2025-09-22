@@ -1,6 +1,15 @@
-<?php 
+<?php
 
-class ArticleController 
+namespace App\Controllers;
+
+use App\Models\ArticleManager;
+use App\Models\CommentManager;
+use App\Services\ViewTracker;
+use App\Services\Utils;
+use App\Views\View;
+use Exception;
+
+class ArticleController
 {
     /**
      * Affiche la page d'accueil.

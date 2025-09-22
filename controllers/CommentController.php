@@ -1,6 +1,14 @@
 <?php
 
-class CommentController 
+namespace App\Controllers;
+
+use App\Models\ArticleManager;
+use App\Models\CommentManager;
+use App\Models\Comment;
+use App\Services\Utils;
+use Exception;
+
+class CommentController
 {
     /**
      * Ajoute un commentaire.

@@ -1,6 +1,6 @@
-<?php 
-    /** 
-     * Template du formulaire d'update/creation d'un article. 
+<?php
+    /**
+     * Template du formulaire d'update/creation d'un article.
      */
 ?>
 

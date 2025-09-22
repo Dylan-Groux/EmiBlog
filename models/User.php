@@ -1,9 +1,13 @@
 <?php
 
+namespace App\Models;
+
+use App\Models\AbstractEntity;
+
 /**
  * Entité User : un user est défini par son id, un login et un password.
- */ 
-class User extends AbstractEntity 
+ */
+class User extends AbstractEntity
 {
     private string $login;
     private string $password;
@@ -12,7 +16,7 @@ class User extends AbstractEntity
      * Setter pour le login.
      * @param string $login
      */
-    public function setLogin(string $login) : void 
+    public function setLogin(string $login) : void
     {
         $this->login = $login;
     }
@@ -21,7 +25,7 @@ class User extends AbstractEntity
      * Getter pour le login.
      * @return string
      */
-    public function getLogin() : string 
+    public function getLogin() : string
     {
         return $this->login;
     }
@@ -30,7 +34,7 @@ class User extends AbstractEntity
      * Setter pour le password.
      * @param string $password
      */
-    public function setPassword(string $password) : void 
+    public function setPassword(string $password) : void
     {
         $this->password = $password;
     }
@@ -39,7 +43,7 @@ class User extends AbstractEntity
      * Getter pour le password.
      * @return string
      */
-    public function getPassword() : string 
+    public function getPassword() : string
     {
         return $this->password;
     }
