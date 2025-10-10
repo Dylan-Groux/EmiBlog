@@ -18,5 +18,7 @@ jobs:
           php-version: '8.3'
       - name: Install dependencies
         run: composer install
+      - name: Make phpunit executable
+        run: chmod +x ./vendor/bin/phpunit
       - name: Run ArticleRepository tests
         run: ./vendor/bin/phpunit tests/Models/Repositories/ArticleRepositoryTest.php
