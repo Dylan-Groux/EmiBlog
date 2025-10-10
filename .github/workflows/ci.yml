@@ -18,6 +18,8 @@ jobs:
           php-version: '8.3'
       - name: Install dependencies
         run: composer install
+      - name: Dump autoload
+        run: composer dump-autoload
       - name: Make phpunit executable
         run: chmod +x ./vendor/bin/phpunit
       - name: Run ArticleRepository tests
