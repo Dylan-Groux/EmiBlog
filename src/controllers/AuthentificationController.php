@@ -2,12 +2,12 @@
 
 namespace App\Controllers;
 
-use App\Models\UserManager;
+use App\Models\Repositories\UserRepository;
 use App\Services\Utils;
 use App\Views\View;
 use App\Models\ExceptionHandlerInterface;
 use App\Models\Exceptions\NotFoundException;
-use App\Models\ExceptionManager;
+use App\Models\Exceptions\ExceptionManager;
 use App\Library\Route;
 use App\Models\Exceptions\ValidationException;
 
@@ -54,8 +54,8 @@ class AuthentificationController
         }
 
         // On vérifie que l'utilisateur existe.
-        $userManager = new UserManager();
-        $user = $userManager->getUserByLogin($login);
+        $userRepository = new UserRepository();
+        $user = $userRepository->getUserByLogin($login);
         if (!$user) {
         /** @var ExceptionHandlerInterface $manager */
         $manager = new ExceptionManager();

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Entities;
 
-use App\Models\AbstractEntity;
+use App\Models\Abstract\AbstractEntity;
 use DateTime;
 
 /**

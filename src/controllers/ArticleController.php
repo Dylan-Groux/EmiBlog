@@ -2,8 +2,8 @@
 
 namespace App\Controllers;
 
-use App\Models\ArticleManager;
-use App\Models\CommentManager;
+use App\Models\Repositories\ArticleRepository;
+use App\Models\Repositories\CommentRepository;
 use App\Services\ViewTracker;
 use App\Services\Utils;
 use App\Views\View;
@@ -20,8 +20,8 @@ class ArticleController extends AbstractController
     #[Route(path: HOME_ROUTE, method: "GET")]
     public function showHome() : void
     {
-        $articleManager = new ArticleManager();
-        $articles = $articleManager->getAllArticles();
+        $articleRepository = new ArticleRepository();
+        $articles = $articleRepository->getAllArticles();
 
         $view = new View("Accueil");
         $view->render("home", ['articles' => $articles]);
@@ -37,9 +37,9 @@ class ArticleController extends AbstractController
         // Récupération de l'id de l'article demandé.
         $id = Utils::request("id", -1);
 
-        $articleManager = new ArticleManager();
-        $article = $articleManager->getArticleById($id);
-        
+        $articleRepository = new ArticleRepository();
+        $article = $articleRepository->getArticleById($id);
+
         if (!$article) {
             throw new NotFoundException("L'article demandé n'existe pas.");
         }
@@ -47,8 +47,8 @@ class ArticleController extends AbstractController
         $tracker = new ViewTracker();
         $tracker->trackView($id);
 
-        $commentManager = new CommentManager();
-        $comments = $commentManager->getAllCommentsByArticleId($id);
+        $commentRepository = new CommentRepository();
+        $comments = $commentRepository->getAllCommentsByArticleId($id);
 
         $view = new View($article->getTitle());
         $view->render("detailArticle", ['article' => $article, 'comments' => $comments]);

@@ -4,8 +4,8 @@ namespace App\Controllers;
 
 use App\Controllers\AuthentificationController;
 use App\Library\AbstractController;
-use App\Models\ArticleManager;
-use App\Models\Article;
+use App\Models\Repositories\ArticleRepository;
+use App\Models\Entities\Article;
 use App\Services\Utils;
 use App\Library\Route;
 use App\Models\Exceptions\ValidationException;
@@ -35,8 +35,8 @@ class AdminController extends AbstractController
         $this->authController->checkIfUserIsConnected();
 
         // On récupère les articles.
-        $articleManager = new ArticleManager();
-        $articles = $articleManager->getAllArticles();
+        $articleRepository = new ArticleRepository();
+        $articles = $articleRepository->getAllArticles();
 
         // On affiche la page d'administration.
         $view = new View("Administration");
@@ -58,8 +58,8 @@ class AdminController extends AbstractController
         $id = Utils::request("id", -1);
 
         // On récupère l'article associé.
-        $articleManager = new ArticleManager();
-        $article = $articleManager->getArticleById($id);
+        $articleRepository = new ArticleRepository();
+        $article = $articleRepository->getArticleById($id);
 
         // Si l'article n'existe pas, on en crée un vide.
         if (!$article) {
@@ -102,8 +102,8 @@ class AdminController extends AbstractController
         ]);
 
         // On ajoute l'article.
-        $articleManager = new ArticleManager();
-        $articleManager->addOrUpdateArticle($article);
+        $articleRepository = new ArticleRepository();
+        $articleRepository->addOrUpdateArticle($article);
 
         // On redirige vers la page d'administration.
         Utils::redirect(ADMIN_REDIRECT);
@@ -122,9 +122,9 @@ class AdminController extends AbstractController
         $id = Utils::request("id", -1);
 
         // On supprime l'article.
-        $articleManager = new ArticleManager();
-        $articleManager->deleteArticle($id);
-       
+        $articleRepository = new ArticleRepository();
+        $articleRepository->deleteArticle($id);
+
         // On redirige vers la page d'administration.
         Utils::redirect(ADMIN_REDIRECT);
     }

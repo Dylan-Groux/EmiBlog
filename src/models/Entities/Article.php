@@ -1,11 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Entities;
 
-use App\Models\AbstractEntity;
+use App\Models\Abstract\AbstractEntity;
 use DateTime;
-
-require_once __DIR__ . '/AbstractEntity.php';
 
 /**
  * Entité Article, un article est défini par les champs

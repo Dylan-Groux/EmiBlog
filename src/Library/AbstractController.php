@@ -2,6 +2,8 @@
 
 namespace App\Library;
 
+use App\Models\Exceptions\NotFoundException;
+
 abstract class AbstractController
 {
     public function route(string $action, array $params = []): void
@@ -9,7 +11,7 @@ abstract class AbstractController
         if (method_exists($this, $action)) {
             call_user_func_array([$this, $action], $params);
         } else {
-            throw new \Exception("Méthode $action non trouvée dans le contrôleur " . get_class($this));
+            throw new NotFoundException("Méthode $action non trouvée dans le contrôleur " . get_class($this));
         }
     }
 

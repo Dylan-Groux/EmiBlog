@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\DBManager;
+use App\Models\Infrastructure\DBManager;
 
 class ViewTracker {
 

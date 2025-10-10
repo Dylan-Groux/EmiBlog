@@ -2,9 +2,9 @@
 
 namespace App\Controllers;
 
-use App\Models\ArticleManager;
-use App\Models\CommentManager;
-use App\Models\Comment;
+use App\Models\Repositories\ArticleRepository;
+use App\Models\Repositories\CommentRepository;
+use App\Models\Entities\Comment;
 use App\Services\Utils;
 use App\Library\Route;
 use App\Library\AbstractController;
@@ -30,8 +30,8 @@ class CommentController extends AbstractController
         }
 
         // On vérifie que l'article existe.
-        $articleManager = new ArticleManager();
-        $article = $articleManager->getArticleById($idArticle);
+        $articleRepository = new ArticleRepository();
+        $article = $articleRepository->getArticleById($idArticle);
         if (!$article) {
             throw new ValidationException("L'article demandé n'existe pas.");
         }
@@ -44,8 +44,8 @@ class CommentController extends AbstractController
         ]);
 
         // On ajoute le commentaire.
-        $commentManager = new CommentManager();
-        $result = $commentManager->addComment($comment);
+        $commentRepository = new CommentRepository();
+        $result = $commentRepository->addComment($comment);
 
         // On vérifie que l'ajout a bien fonctionné.
         if (!$result) {
@@ -53,6 +53,6 @@ class CommentController extends AbstractController
         }
 
         // On redirige vers la page de l'article.
-        Utils::redirect("showArticle", ['id' => $idArticle]);
+        Utils::redirect( ARTICLE_ROUTE, ['id' => $idArticle]);
     }
 }

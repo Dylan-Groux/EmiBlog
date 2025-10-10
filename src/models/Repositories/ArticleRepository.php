@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Repositories;
 
-use App\Models\AbstractEntityManager;
-use App\Models\Article;
+use App\Models\Abstract\AbstractManager\AbstractEntityManager;
+use App\Models\Entities\Article;
 
 /**
  * Classe qui gère les articles.
  */
-class ArticleManager extends AbstractEntityManager
+class ArticleRepository extends AbstractEntityManager
 {
     /**
      * Récupère tous les articles.

@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Repositories;
 
-use App\Models\AbstractEntityManager;
-use App\Models\User;
+use App\Models\Abstract\AbstractManager\AbstractEntityManager;
+use App\Models\Entities\User;
 
 /**
  * Classe UserManager pour gérer les requêtes liées aux users et à l'authentification.
  */
 
-class UserManager extends AbstractEntityManager
+class UserRepository extends AbstractEntityManager
 {
     /**
      * Récupère un user par son login.

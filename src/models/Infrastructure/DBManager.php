@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Infrastructure;
 
 use PDO;
 use PDOStatement;

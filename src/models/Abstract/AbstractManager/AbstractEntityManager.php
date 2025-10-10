@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Abstract\AbstractManager;
 
-use App\Models\DBManager;
-
-require_once __DIR__ . '/DBManager.php';
+use App\Models\Infrastructure\DBManager;
 
 /**
  * Classe abstraite qui représente un manager. Elle récupère automatiquement le gestionnaire de base de données. 

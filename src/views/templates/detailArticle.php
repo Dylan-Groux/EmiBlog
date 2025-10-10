@@ -40,7 +40,7 @@
         }
     ?>
 
-    <form action="index.php" method="post" class="foldedCorner">
+    <form action="index.php?route=/comment/add" method="post" class="foldedCorner">
         <h2>Commenter</h2>
 
         <div class="formComment formGrid">

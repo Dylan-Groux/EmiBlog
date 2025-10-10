@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Exceptions;
 
 use App\Models\Exceptions\NotFoundException;
 use App\Models\Exceptions\UnauthorizedException;

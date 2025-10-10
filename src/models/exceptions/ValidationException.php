@@ -2,4 +2,4 @@
 
 namespace App\Models\Exceptions;
 
-class ValidationException extends \Exception implements ExceptionInterface {}
+class ValidationException extends \Exception {}

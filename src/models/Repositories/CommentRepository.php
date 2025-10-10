@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Repositories;
 
-use App\Models\AbstractEntityManager;
-use App\Models\Comment;
+use App\Models\Abstract\AbstractManager\AbstractEntityManager;
+use App\Models\Entities\Comment;
 
 /**
  * Cette classe sert à gérer les commentaires.
  */
-class CommentManager extends AbstractEntityManager
+class CommentRepository extends AbstractEntityManager
 {
     /**
      * Récupère tous les commentaires d'un article.
