@@ -4,88 +4,31 @@ use App\Controllers\ArticleController;
 use App\Controllers\CommentController;
 use App\Controllers\AdminController;
 use App\Services\Utils;
-use App\Views\View;
-use App\Models\ArticleManager;
+use App\Library\Router;
 
 require_once __DIR__ . '/config/_config.php';
-require_once __DIR__ . '/config/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 // On récupère l'action demandée par l'utilisateur.
 // Si aucune action n'est demandée, on affiche la page d'accueil.
-$action = Utils::request('action', 'home');
+$action = Utils::request('action', 'showHome');
+$router = new Router();
+$articleController = new ArticleController();
 
-// Try catch global pour gérer les erreurs
-try {
-    // Pour chaque action, on appelle le bon contrôleur et la bonne méthode.
-    switch ($action) {
-        // Pages accessibles à tous.
-        case 'home':
-            $articleController = new ArticleController();
-            $articleController->showHome();
-            break;
+$routes = $router->registerControllerRoutes($articleController);
+$commentController = new CommentController();
+$routes = array_merge($routes, $router->registerControllerRoutes($commentController));
+$adminController = new AdminController();
+$routes = array_merge($routes, $router->registerControllerRoutes($adminController));
 
-        case 'apropos':
-            $articleController = new ArticleController();
-            $articleController->showApropos();
-            break;
-        
-        case 'showArticle': 
-            $articleController = new ArticleController();
-            $articleController->showArticle();
-            break;
+// Simule une requête (exemple)
+$path = $_GET['route'] ?? '/';
+$method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+$key = $path . ':' . strtoupper($method);
 
-        case 'addArticle':
-            $articleController = new ArticleController();
-            $articleController->addArticle();
-            break;
-
-        case 'addComment':
-            $commentController = new CommentController();
-            $commentController->addComment();
-            break;
-
-
-        // Section admin & connexion. 
-        case 'admin': 
-            $adminController = new AdminController();
-            $adminController->showAdmin();
-            break;
-
-        case 'connectionForm':
-            $adminController = new AdminController();
-            $adminController->displayConnectionForm();
-            break;
-
-        case 'connectUser': 
-            $adminController = new AdminController();
-            $adminController->connectUser();
-            break;
-
-        case 'disconnectUser':
-            $adminController = new AdminController();
-            $adminController->disconnectUser();
-            break;
-
-        case 'showUpdateArticleForm':
-            $adminController = new AdminController();
-            $adminController->showUpdateArticleForm();
-            break;
-
-        case 'updateArticle': 
-            $adminController = new AdminController();
-            $adminController->updateArticle();
-            break;
-
-        case 'deleteArticle':
-            $adminController = new AdminController();
-            $adminController->deleteArticle();
-            break;
-
-        default:
-            throw new Exception("La page demandée n'existe pas.");
-    }
-} catch (Exception $e) {
-    // En cas d'erreur, on affiche la page d'erreur.
-    $errorView = new View('Erreur');
-    $errorView->render('errorPage', ['errorMessage' => $e->getMessage()]);
+// Dispatch
+if (isset($routes[$key])) {
+    call_user_func($routes[$key]);
+} else {
+    echo "Route non trouvée.";
 }
