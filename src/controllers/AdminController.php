@@ -40,7 +40,7 @@ class AdminController extends AbstractController
 
         // On affiche la page d'administration.
         $view = new View("Administration");
-        $view->render("admin", [
+        echo $view->render("admin", [
             'articles' => $articles
         ]);
     }
@@ -68,7 +68,7 @@ class AdminController extends AbstractController
 
         // On affiche la page de modification de l'article.
         $view = new View("Edition d'un article");
-        $view->render("updateArticleForm", [
+        echo $view->render("updateArticleForm", [
             'article' => $article
         ]);
     }

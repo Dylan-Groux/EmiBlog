@@ -7,13 +7,15 @@ use App\Services\Utils;
 use App\Library\Router;
 use App\Controllers\AuthentificationController;
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+require_once __DIR__ . '/config/views.php';
 require_once __DIR__ . '/config/_config.php';
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/config/routes.php';
 
-// On récupère l'action demandée par l'utilisateur.
-// Si aucune action n'est demandée, on affiche la page d'accueil.
-$action = Utils::request('action', 'showHome');
 $router = new Router();
 $articleController = new ArticleController();
 

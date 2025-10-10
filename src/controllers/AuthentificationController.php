@@ -34,7 +34,7 @@ class AuthentificationController
     public function displayConnectionForm() : void
     {
         $view = new View("Connexion");
-        $view->render("connectionForm");
+        echo $view->render("connectionForm");
     }
 
     /**

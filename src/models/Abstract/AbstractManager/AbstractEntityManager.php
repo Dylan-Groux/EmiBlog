@@ -5,7 +5,7 @@ namespace App\Models\Abstract\AbstractManager;
 use App\Models\Infrastructure\DBManager;
 
 /**
- * Classe abstraite qui représente un manager. Elle récupère automatiquement le gestionnaire de base de données. 
+ * Classe abstraite qui représente un manager. Elle récupère automatiquement le gestionnaire de base de données.
  */
 abstract class AbstractEntityManager {
     

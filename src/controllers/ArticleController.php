@@ -22,9 +22,8 @@ class ArticleController extends AbstractController
     {
         $articleRepository = new ArticleRepository();
         $articles = $articleRepository->getAllArticles();
-
-        $view = new View("Accueil");
-        $view->render("home", ['articles' => $articles]);
+        $view = new View("Accueil", MAIN_VIEW_PATH, TEMPLATE_VIEW_PATH);
+        echo $view->render("home", ['articles' => $articles]);
     }
 
     /**
@@ -51,7 +50,7 @@ class ArticleController extends AbstractController
         $comments = $commentRepository->getAllCommentsByArticleId($id);
 
         $view = new View($article->getTitle());
-        $view->render("detailArticle", ['article' => $article, 'comments' => $comments]);
+        echo $view->render("detailArticle", ['article' => $article, 'comments' => $comments]);
     }
 
     /**
@@ -62,7 +61,7 @@ class ArticleController extends AbstractController
     public function addArticle() : void
     {
         $view = new View("Ajouter un article");
-        $view->render("addArticle");
+        echo $view->render("addArticle");
     }
 
     /**
@@ -72,6 +71,6 @@ class ArticleController extends AbstractController
     #[Route(path: ARTICLE_APROPOS_ROUTE, method: "GET")]
     public function showApropos() {
         $view = new View("A propos");
-        $view->render("apropos");
+        echo$view->render("apropos");
     }
 }
