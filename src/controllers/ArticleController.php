@@ -17,7 +17,7 @@ class ArticleController extends AbstractController
      * Affiche la page d'accueil.
      * @return void
      */
-    #[Route(path: "/", method: "GET")]
+    #[Route(path: HOME_ROUTE, method: "GET")]
     public function showHome() : void
     {
         $articleManager = new ArticleManager();
@@ -31,7 +31,7 @@ class ArticleController extends AbstractController
      * Affiche le détail d'un article.
      * @return void
      */
-    #[Route(path: "/article", method: "GET")]
+    #[Route(path: ARTICLE_ROUTE, method: "GET")]
     public function showArticle() : void
     {
         // Récupération de l'id de l'article demandé.
@@ -69,7 +69,7 @@ class ArticleController extends AbstractController
      * Affiche la page "à propos".
      * @return void
      */
-    #[Route(path: "/apropos", method: "GET")]
+    #[Route(path: ARTICLE_APROPOS_ROUTE, method: "GET")]
     public function showApropos() {
         $view = new View("A propos");
         $view->render("apropos");

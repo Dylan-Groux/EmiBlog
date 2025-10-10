@@ -16,7 +16,7 @@ class CommentController extends AbstractController
      * Ajoute un commentaire.
      * @return void
      */
-    #[Route(path: "/comment/add", method: "POST")]
+    #[Route(path: COMMENT_SUBMIT_ROUTE, method: "POST")]
     public function addComment() : void
     {
         // Récupération des données du formulaire.

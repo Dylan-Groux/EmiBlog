@@ -5,9 +5,11 @@ use App\Controllers\CommentController;
 use App\Controllers\AdminController;
 use App\Services\Utils;
 use App\Library\Router;
+use App\Controllers\AuthentificationController;
 
 require_once __DIR__ . '/config/_config.php';
 require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/config/routes.php';
 
 // On récupère l'action demandée par l'utilisateur.
 // Si aucune action n'est demandée, on affiche la page d'accueil.
@@ -20,6 +22,8 @@ $commentController = new CommentController();
 $routes = array_merge($routes, $router->registerControllerRoutes($commentController));
 $adminController = new AdminController();
 $routes = array_merge($routes, $router->registerControllerRoutes($adminController));
+$authController = new AuthentificationController();
+$routes = array_merge($routes, $router->registerControllerRoutes($authController));
 
 // Simule une requête (exemple)
 $path = $_GET['route'] ?? '/';

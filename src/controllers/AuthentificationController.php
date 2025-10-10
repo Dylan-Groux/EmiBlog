@@ -5,7 +5,6 @@ namespace App\Controllers;
 use App\Models\UserManager;
 use App\Services\Utils;
 use App\Views\View;
-use Exception;
 use App\Models\ExceptionHandlerInterface;
 use App\Models\Exceptions\NotFoundException;
 use App\Models\ExceptionManager;
@@ -18,12 +17,12 @@ class AuthentificationController
      * Vérifie que l'utilisateur est connecté.
      * @return void
      */
-    #[Route(path: "/admin/check", method: "GET")]
+    #[Route(path: ADMIN_CHECK_CONNECTED_ROUTE, method: "GET")]
     public function checkIfUserIsConnected() : void
     {
         // On vérifie que l'utilisateur est connecté.
         if (!isset($_SESSION['user'])) {
-            Utils::redirect("connectionForm");
+            Utils::redirect(ADMIN_CONNECTION_FORM_ROUTE);
         }
     }
 
@@ -31,7 +30,7 @@ class AuthentificationController
      * Affichage du formulaire de connexion.
      * @return void
      */
-    #[Route(path: "/admin/connectionForm", method: "GET")]
+    #[Route(path: ADMIN_CONNECTION_FORM_ROUTE, method: "GET")]
     public function displayConnectionForm() : void
     {
         $view = new View("Connexion");
@@ -42,7 +41,7 @@ class AuthentificationController
      * Connexion de l'utilisateur.
      * @return void
      */
-    #[Route(path: "/admin/connection", method: "POST")]
+    #[Route(path: ADMIN_CONNECTION_ROUTE, method: "POST")]
     public function connectUser() : void
     {
         // On récupère les données du formulaire.
@@ -81,7 +80,7 @@ class AuthentificationController
      * Déconnexion de l'utilisateur.
      * @return void
      */
-    #[Route(path: "/admin/disconnect", method: "GET")]
+    #[Route(path: ADMIN_LOGOUT_ROUTE, method: "GET")]
     public function disconnectUser() : void
     {
         // On déconnecte l'utilisateur.

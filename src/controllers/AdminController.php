@@ -11,13 +11,9 @@ use App\Library\Route;
 use App\Models\Exceptions\ValidationException;
 use App\Views\View;
 
-use Exception;
-
 /**
  * Contrôleur de la partie admin.
  */
- 
-define('ADMIN_REDIRECT', '/admin');
 
 class AdminController extends AbstractController
 {
@@ -32,7 +28,7 @@ class AdminController extends AbstractController
      * Affiche la page d'administration.
      * @return void
      */
-    #[Route(path: (ADMIN_REDIRECT), method: "GET")]
+    #[Route(path: ADMIN_REDIRECT, method: "GET")]
     public function showAdmin() : void
     {
         // On vérifie que l'utilisateur est connecté.
@@ -53,7 +49,7 @@ class AdminController extends AbstractController
      * Affichage du formulaire d'ajout d'un article.
      * @return void
      */
-    #[Route(path: "/admin/articleForm", method: "GET")]
+    #[Route(path: ADMIN_ARTICLE_FORM_ROUTE, method: "GET")]
     public function showUpdateArticleForm() : void
     {
         $this->authController->checkIfUserIsConnected();
@@ -82,7 +78,7 @@ class AdminController extends AbstractController
      * On sait si un article est ajouté car l'id vaut -1.
      * @return void
      */
-    #[Route(path: "/admin/article", method: "POST")]
+    #[Route(path: ADMIN_ARTICLE_SUBMIT_ROUTE, method: "POST")]
     public function updateArticle() : void
     {
         $this->authController->checkIfUserIsConnected();
@@ -118,7 +114,7 @@ class AdminController extends AbstractController
      * Suppression d'un article.
      * @return void
      */
-    #[Route(path: "/admin/deleteArticle", method: "POST")]
+    #[Route(path: ADMIN_ARTICLE_DELETE_ROUTE, method: "POST")]
     public function deleteArticle() : void
     {
         $this->authController->checkIfUserIsConnected();
