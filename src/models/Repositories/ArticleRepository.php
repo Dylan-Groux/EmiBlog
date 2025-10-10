@@ -4,12 +4,20 @@ namespace App\Models\Repositories;
 
 use App\Models\Abstract\AbstractManager\AbstractEntityManager;
 use App\Models\Entities\Article;
+use App\Models\Infrastructure\DBManager;
 
 /**
  * Classe qui gère les articles.
  */
 class ArticleRepository extends AbstractEntityManager
 {
+    private $pdo;
+
+    public function __construct($pdo = null)
+    {
+        $this->pdo = $pdo ?? DBManager::getInstance()->getPdo();
+    }
+
     /**
      * Récupère tous les articles.
      * @return array : un tableau d'objets Article.
@@ -17,7 +25,7 @@ class ArticleRepository extends AbstractEntityManager
     public function getAllArticles() : array
     {
         $sql = "SELECT * FROM article";
-        $result = $this->db->query($sql);
+        $result = $this->pdo->query($sql);
         $articles = [];
 
         while ($article = $result->fetch()) {
@@ -34,8 +42,9 @@ class ArticleRepository extends AbstractEntityManager
     public function getArticleById(int $id) : ?Article
     {
         $sql = "SELECT * FROM article WHERE id = :id";
-        $result = $this->db->query($sql, ['id' => $id]);
-        $article = $result->fetch();
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['id' => $id]);
+        $article = $stmt->fetch();
         if ($article) {
             return new Article($article);
         }
@@ -65,7 +74,7 @@ class ArticleRepository extends AbstractEntityManager
     public function addArticle(Article $article) : void
     {
         $sql = "INSERT INTO article (id_user, title, content, date_creation) VALUES (:id_user, :title, :content, NOW())";
-        $this->db->query($sql, [
+        $this->pdo->prepare($sql)->execute([
             'id_user' => $article->getIdUser(),
             'title' => $article->getTitle(),
             'content' => $article->getContent()
@@ -80,7 +89,8 @@ class ArticleRepository extends AbstractEntityManager
     public function updateArticle(Article $article) : void
     {
         $sql = "UPDATE article SET title = :title, content = :content, date_update = NOW() WHERE id = :id";
-        $this->db->query($sql, [
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
             'title' => $article->getTitle(),
             'content' => $article->getContent(),
             'id' => $article->getId()
@@ -95,6 +105,7 @@ class ArticleRepository extends AbstractEntityManager
     public function deleteArticle(int $id) : void
     {
         $sql = "DELETE FROM article WHERE id = :id";
-        $this->db->query($sql, ['id' => $id]);
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['id' => $id]);
     }
 }
