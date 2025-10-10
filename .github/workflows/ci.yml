@@ -19,4 +19,4 @@ jobs:
       - name: Install dependencies
         run: composer install
       - name: Run ArticleRepository tests
-        run: vendor/bin/phpunit tests/Models/Repositories/ArticleRepositoryTest.php
+        run: ./vendor/bin/phpunit tests/Models/Repositories/ArticleRepositoryTest.php
