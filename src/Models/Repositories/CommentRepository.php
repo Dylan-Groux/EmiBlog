@@ -82,4 +82,17 @@ class CommentRepository extends AbstractEntityManager
         $result->execute(['id' => $comment->getId()]);
         return $result->rowCount() > 0;
     }
+
+    /**
+     * Compte le nombre de commentaires pour un article donné.
+     * @param int $articleId : l'id de l'article.
+     * @return int : le nombre de commentaires.
+     */
+    public function getCountCommentsByArticleId(int $articleId): int
+    {
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) as count FROM comment WHERE id_article = :article_id");
+        $stmt->execute(['article_id' => $articleId]);
+        $result = $stmt->fetch();
+        return $result ? (int)$result['count'] : 0;
+    }
 }

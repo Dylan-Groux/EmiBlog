@@ -30,6 +30,7 @@ class ArticleController extends AbstractController
      * Affiche le détail d'un article.
      * @return void
      */
+    #[ViewTracker]
     #[Route(path: ARTICLE_ROUTE, method: "GET")]
     public function showArticle() : void
     {
@@ -42,9 +43,6 @@ class ArticleController extends AbstractController
         if (!$article) {
             throw new NotFoundException("L'article demandé n'existe pas.");
         }
-
-        $tracker = new ViewTracker();
-        $tracker->trackView($id);
 
         $commentRepository = new CommentRepository();
         $comments = $commentRepository->getAllCommentsByArticleId($id);
@@ -71,6 +69,6 @@ class ArticleController extends AbstractController
     #[Route(path: ARTICLE_APROPOS_ROUTE, method: "GET")]
     public function showApropos() {
         $view = new View("A propos");
-        echo$view->render("apropos");
+        echo $view->render("apropos");
     }
 }

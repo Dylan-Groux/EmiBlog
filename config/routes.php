@@ -12,6 +12,7 @@ define('ADMIN_ARTICLE_FORM_ROUTE', '/admin/articleForm'); /** Formulaire d\'ajou
 define('ADMIN_ARTICLE_DELETE_ROUTE', '/admin/delete'); /** Suppression d\'un article */
 define('ADMIN_ARTICLE_SUBMIT_ROUTE', '/admin/article'); /** Soumission d\'un article */
 define('ADMIN_REDIRECT', '/admin'); /** Redirection vers la page d\'admin */
+define('ADMIN_DASHBOARD_ROUTE', '/admin/dashboard'); /** Tableau de bord */
 
 /**
  * Route pour le Contrôleur @var ArticleController.php

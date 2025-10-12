@@ -10,6 +10,7 @@ use App\Models\Exceptions\NotFoundException;
 use App\Models\Exceptions\ExceptionManager;
 use App\Library\Route;
 use App\Models\Exceptions\ValidationException;
+use App\Services\ViewTracker;
 
 class AuthentificationController
 {

@@ -134,4 +134,16 @@ use DateTime;
     {
         return $this->dateUpdate;
     }
- }
+
+    /**
+     * Formatte la date de création selon le format donné.
+     * Par défaut, le format est 'd/m/Y H:i'.
+     * @param string $format : le format de la date.
+     * @return string : la date formatée.
+     */
+    public function getFormattedDateCreation(string $format = 'd/m/Y H:i') : string
+    {
+        return $this->dateCreation->format($format);
+    }
+}
+

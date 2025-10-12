@@ -34,7 +34,28 @@ $key = $path . ':' . strtoupper($method);
 
 // Dispatch
 if (isset($routes[$key])) {
-    call_user_func($routes[$key]);
+    $callable = $routes[$key];
+    
+     // Vérification de la présence de l'attribut ViewTracker
+    if(is_array($callable) && count($callable) === 2) {
+        $controller = $callable[0];
+        $method = $callable[1];
+
+        $refMethod = new ReflectionMethod($controller, $method);
+        $attributes = $refMethod->getAttributes(\App\Services\ViewTracker::class);
+
+        if (!empty($attributes)) {
+            $id = Utils::request("id", -1);
+            if ($id >= 0) {
+                $tracker = new \App\Services\ViewTracker();
+                $tracker->articleTrackView($id);
+            } else {
+                error_log("Erreur : ID d'article invalide pour le tracking.");
+            }
+        }
+    }
+
+    call_user_func($callable);
 } else {
     echo "Route non trouvée.";
 }

@@ -14,9 +14,11 @@ use App\Services\ValidationService;
 class ArticleRepository extends AbstractEntityManager
 {
     private $pdo;
+    private TrackRepository $trackRepository;
 
     public function __construct($pdo = null)
     {
+        $this->trackRepository = new TrackRepository($this->pdo);
         $this->pdo = $pdo ?? DBManager::getInstance()->getPdo();
     }
 
@@ -78,13 +80,30 @@ class ArticleRepository extends AbstractEntityManager
      */
     public function addArticle(Article $article) : int
     {
+        // 1. Insérer l'article sans id_track
         $sql = "INSERT INTO article (id_user, title, content, date_creation) VALUES (:id_user, :title, :content, NOW())";
         $this->pdo->prepare($sql)->execute([
             'id_user' => $article->getIdUser(),
             'title' => $article->getTitle(),
             'content' => $article->getContent()
         ]);
-        return $this->pdo->lastInsertId();
+        $articleId = $this->pdo->lastInsertId();
+
+        // 2. Créer la ligne de tracking liée à l'article
+        $trackSQL = "INSERT INTO track (view_count, created_at, article_id) VALUES (0, NOW(), :article_id)";
+        $this->pdo->prepare($trackSQL)->execute([
+            'article_id' => $articleId
+        ]);
+        $idTrack = $this->pdo->lastInsertId();
+
+        // 3. Mettre à jour l'article avec l'id_track
+        $updateSQL = "UPDATE article SET id_track = :id_track WHERE id = :id";
+        $this->pdo->prepare($updateSQL)->execute([
+            'id_track' => $idTrack,
+            'id' => $articleId
+        ]);
+
+        return $articleId;
     }
 
     /**
@@ -110,6 +129,8 @@ class ArticleRepository extends AbstractEntityManager
      */
     public function deleteArticle(int $id) : void
     {
+        //TODO : Supprimer la ligne de tracking associée car ON CASCADE ne fonctionne pas
+        $this->trackRepository->deleteTrackByArticleId($id);
         $sql = "DELETE FROM article WHERE id = :id";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['id' => $id]);

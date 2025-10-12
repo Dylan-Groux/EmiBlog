@@ -9,6 +9,7 @@ use App\Services\Utils;
 use App\Library\Route;
 use App\Library\AbstractController;
 use App\Models\Exceptions\ValidationException;
+use App\Services\ViewTracker;
 
 class CommentController extends AbstractController
 {

@@ -12,6 +12,9 @@ use App\Models\Exceptions\ValidationException;
 use App\Views\View;
 use App\Services\ValidationService;
 use App\Services\ArticleService;
+use App\Services\ViewTracker;
+use App\Models\Repositories\TrackRepository;
+use App\Models\Repositories\CommentRepository;
 
 /**
  * Contrôleur de la partie admin.
@@ -56,7 +59,7 @@ class AdminController extends AbstractController
     {
         $this->authController->checkIfUserIsConnected();
 
-        // On récupère l'id de l'article s'il existe.
+        // On récupère l'id de l'article s'il existe. 
         $id = Utils::request("id", -1);
 
         // On récupère l'article associé.
@@ -135,5 +138,38 @@ class AdminController extends AbstractController
 
         // On redirige vers la page d'administration.
         Utils::redirect(ADMIN_REDIRECT);
+    }
+
+    /**
+     * Affiche le tableau de bord.
+     * @return void
+     */
+    #[Route(path: ADMIN_DASHBOARD_ROUTE, method: "GET")]
+    public function showDashboard() : void
+    {
+        $this->authController->checkIfUserIsConnected();
+
+        $articleRepository = new ArticleRepository();
+        $trackRepository = new TrackRepository();
+        $commentRepository = new CommentRepository();
+
+        $articles = $articleRepository->getAllArticles();
+        $dashboardArticles = [];
+
+        foreach ($articles as $article) {
+            $viewCount = $trackRepository->getViewCountByArticleId($article->getId());
+            $commentCount = $commentRepository->getCountCommentsByArticleId($article->getId());
+            $dashboardArticles[] = [
+                'article' => $article,
+                'viewCount' => $viewCount,
+                'commentCount' => $commentCount
+            ];
+        }
+
+        // On affiche la page du tableau de bord.
+        $view = new View("Tableau de bord");
+        echo $view->render("adminDashboard", [
+            'dashboardArticles' => $dashboardArticles
+        ]);
     }
 }
