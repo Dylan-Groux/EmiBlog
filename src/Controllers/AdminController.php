@@ -10,6 +10,8 @@ use App\Services\Utils;
 use App\Library\Route;
 use App\Models\Exceptions\ValidationException;
 use App\Views\View;
+use App\Services\ValidationService;
+use App\Services\ArticleService;
 
 /**
  * Contrôleur de la partie admin.
@@ -83,30 +85,36 @@ class AdminController extends AbstractController
     {
         $this->authController->checkIfUserIsConnected();
 
-        // On récupère les données du formulaire.
         $id = Utils::request("id", -1);
         $title = Utils::request("title");
         $content = Utils::request("content");
 
-        // On vérifie que les données sont valides.
-        if (empty($title) || empty($content)) {
-            throw new ValidationException("Tous les champs sont obligatoires. 2");
-        }
-
-        // On crée l'objet Article.
+        // Crée l'objet Article avant la validation
         $article = new Article([
-            'id' => $id, // Si l'id vaut -1, l'article sera ajouté. Sinon, il sera modifié.
+            'id' => $id,
             'title' => $title,
             'content' => $content,
             'id_user' => $_SESSION['idUser']
         ]);
 
-        // On ajoute l'article.
-        $articleRepository = new ArticleRepository();
-        $articleRepository->addOrUpdateArticle($article);
+        $articleService = new ArticleService(new ArticleRepository());
 
-        // On redirige vers la page d'administration.
-        Utils::redirect(ADMIN_REDIRECT);
+        try {
+            $articleService->addOrUpdateArticle($article);
+            Utils::redirect(ADMIN_REDIRECT);
+        } catch (ValidationException $e) {
+            $view = new View("Edition d'un article");
+            echo $view->render("updateArticleForm", [
+                'article' => $article,
+                'error' => $e->getMessage()
+            ]);
+        } catch (\PDOException $e) {
+            $view = new View("Edition d'un article");
+            echo $view->render("updateArticleForm", [
+                'article' => $article,
+                'error' => "Une erreur technique est survenue."
+            ]);
+        }
     }
 
 

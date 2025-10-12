@@ -24,3 +24,9 @@ jobs:
         run: chmod +x ./vendor/bin/phpunit
       - name: Run ArticleRepository tests
         run: ./vendor/bin/phpunit tests/Models/Repositories/ArticleRepositoryTest.php
+      - name: Run CommentRepository tests
+        run: ./vendor/bin/phpunit tests/Models/Repositories/CommentRepositoryTest.php
+      - name: Run CommentRepository ErrorCase tests
+        run: ./vendor/bin/phpunit tests/Models/ErrorCase/CommentRepositoryErrorCaseTest.php
+      - name: Run ValidationService tests
+        run: ./vendor/bin/phpunit tests/Services/ValidationServiceTest.php

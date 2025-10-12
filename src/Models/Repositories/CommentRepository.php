@@ -4,12 +4,20 @@ namespace App\Models\Repositories;
 
 use App\Models\Abstract\AbstractManager\AbstractEntityManager;
 use App\Models\Entities\Comment;
+use App\Models\Infrastructure\DBManager;
 
 /**
  * Cette classe sert à gérer les commentaires.
  */
 class CommentRepository extends AbstractEntityManager
 {
+    private $pdo;
+
+    public function __construct($pdo = null)
+    {
+        $this->pdo = $pdo ?? DBManager::getInstance()->getPdo();
+    }
+
     /**
      * Récupère tous les commentaires d'un article.
      * @param int $idArticle : l'id de l'article.
@@ -18,7 +26,8 @@ class CommentRepository extends AbstractEntityManager
     public function getAllCommentsByArticleId(int $idArticle) : array
     {
         $sql = "SELECT * FROM comment WHERE id_article = :idArticle";
-        $result = $this->db->query($sql, ['idArticle' => $idArticle]);
+        $result = $this->pdo->prepare($sql);
+        $result->execute(['idArticle' => $idArticle]);
         $comments = [];
 
         while ($comment = $result->fetch()) {
@@ -35,7 +44,8 @@ class CommentRepository extends AbstractEntityManager
     public function getCommentById(int $id) : ?Comment
     {
         $sql = "SELECT * FROM comment WHERE id = :id";
-        $result = $this->db->query($sql, ['id' => $id]);
+        $result = $this->pdo->prepare($sql);
+        $result->execute(['id' => $id]);
         $comment = $result->fetch();
         if ($comment) {
             return new Comment($comment);
@@ -51,7 +61,8 @@ class CommentRepository extends AbstractEntityManager
     public function addComment(Comment $comment) : bool
     {
         $sql = "INSERT INTO comment (pseudo, content, id_article, date_creation) VALUES (:pseudo, :content, :idArticle, NOW())";
-        $result = $this->db->query($sql, [
+        $result = $this->pdo->prepare($sql);
+        $result->execute([
             'pseudo' => $comment->getPseudo(),
             'content' => $comment->getContent(),
             'idArticle' => $comment->getIdArticle()
@@ -67,8 +78,8 @@ class CommentRepository extends AbstractEntityManager
     public function deleteComment(Comment $comment) : bool
     {
         $sql = "DELETE FROM comment WHERE id = :id";
-        $result = $this->db->query($sql, ['id' => $comment->getId()]);
+        $result = $this->pdo->prepare($sql);
+        $result->execute(['id' => $comment->getId()]);
         return $result->rowCount() > 0;
     }
-
 }

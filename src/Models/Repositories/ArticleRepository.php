@@ -5,6 +5,8 @@ namespace App\Models\Repositories;
 use App\Models\Abstract\AbstractManager\AbstractEntityManager;
 use App\Models\Entities\Article;
 use App\Models\Infrastructure\DBManager;
+use App\Models\Exceptions\ValidationException;
+use App\Services\ValidationService;
 
 /**
  * Classe qui gère les articles.
@@ -55,23 +57,26 @@ class ArticleRepository extends AbstractEntityManager
      * Ajoute ou modifie un article.
      * On sait si l'article est un nouvel article car son id sera -1.
      * @param Article $article : l'article à ajouter ou modifier.
-     * @return void
+     * @return int : l'id de l'article ajouté ou modifié.
      */
-    public function addOrUpdateArticle(Article $article) : void
+    public function addOrUpdateArticle(Article $article) : int
     {
         if ($article->getId() == -1) {
-            $this->addArticle($article);
-        } else {
+            return $this->addArticle($article); // <-- retourne l'ID créé
+        } elseif ($article->getId() > 0) {
             $this->updateArticle($article);
+            return $article->getId();
+        } else {
+            throw new \InvalidArgumentException("L'id de l'article est invalide.");
         }
     }
 
     /**
      * Ajoute un article.
      * @param Article $article : l'article à ajouter.
-     * @return void
+     * @return int : l'id de l'article ajouté.
      */
-    public function addArticle(Article $article) : void
+    public function addArticle(Article $article) : int
     {
         $sql = "INSERT INTO article (id_user, title, content, date_creation) VALUES (:id_user, :title, :content, NOW())";
         $this->pdo->prepare($sql)->execute([
@@ -79,6 +84,7 @@ class ArticleRepository extends AbstractEntityManager
             'title' => $article->getTitle(),
             'content' => $article->getContent()
         ]);
+        return $this->pdo->lastInsertId();
     }
 
     /**

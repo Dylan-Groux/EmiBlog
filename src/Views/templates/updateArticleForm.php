@@ -1,4 +1,8 @@
 <?php
+    if (!empty($error)) {
+        echo "<div class='error-message'>$error</div>";
+    }
+
     /**
      * Template du formulaire d'update/creation d'un article.
      */
