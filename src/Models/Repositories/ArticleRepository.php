@@ -7,19 +7,20 @@ use App\Models\Entities\Article;
 use App\Models\Infrastructure\DBManager;
 use App\Models\Exceptions\ValidationException;
 use App\Services\ValidationService;
+use PDO;
 
 /**
  * Classe qui gère les articles.
  */
 class ArticleRepository extends AbstractEntityManager
 {
-    private $pdo;
+    private PDO $pdo;
     private TrackRepository $trackRepository;
 
-    public function __construct($pdo = null)
+    public function __construct(?PDO $pdo = null)
     {
-        $this->trackRepository = new TrackRepository($this->pdo);
         $this->pdo = $pdo ?? DBManager::getInstance()->getPdo();
+        $this->trackRepository = new TrackRepository($this->pdo);
     }
 
     /**
