@@ -5,13 +5,14 @@ namespace App\Models\Repositories;
 use App\Models\Abstract\AbstractManager\AbstractEntityManager;
 use App\Models\Entities\Comment;
 use App\Models\Infrastructure\DBManager;
+use PDO;
 
 /**
  * Cette classe sert à gérer les commentaires.
  */
 class CommentRepository extends AbstractEntityManager
 {
-    private $pdo;
+    private PDO $pdo;
 
     public function __construct($pdo = null)
     {

@@ -30,3 +30,5 @@ jobs:
         run: ./vendor/bin/phpunit tests/Models/ErrorCase/CommentRepositoryErrorCaseTest.php
       - name: Run ValidationService tests
         run: ./vendor/bin/phpunit tests/Services/ValidationServiceTest.php
+      - name: Run TrackRepository tests
+        run: ./vendor/bin/phpunit tests/Models/Repositories/TrackRepositoryTest.php
